@@ -1,4 +1,4 @@
-﻿# =============================================================================
+# =============================================================================
 # PARTIAL DEPENDENCE PLOT (PDP) COMPONENT - GRADIENT BOOSTING
 # =============================================================================
 
@@ -17,10 +17,11 @@ from sklearn.inspection import partial_dependence
 @st.cache_data(show_spinner=False)
 def _compute_pdp_curves(_model, _X_test_pdp, selected_features_tuple, grid_res):
     curves = {}
+    _X_pdp = _X_test_pdp.astype(float)
     for feat in selected_features_tuple:
         res = partial_dependence(
             _model,
-            _X_test_pdp,
+            _X_pdp,
             features=[feat],
             response_method="predict_proba",
             method="brute",
