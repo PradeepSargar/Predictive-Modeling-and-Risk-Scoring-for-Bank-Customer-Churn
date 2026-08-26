@@ -44,6 +44,17 @@ Customer attrition poses a significant threat to retail banking profitability an
 
 By pairing rigorous exploratory data analysis with machine learning (Gradient Boosting champion achieving **86.31% ± 0.99% 5-fold cross-validation accuracy** and **87.08% holdout ROC-AUC**), the platform translates churn probabilities into a standardized **0–100 Risk Score** and **3-tier SLA triage matrix**. Integrated with game-theoretic **SHAP explainability** and deployed across an **8-page interactive Streamlit dashboard**, this system transforms post-exit reporting into proactive, evidence-based retention decision-making.
 
+### Core Value Deliverables
+
+| Deliverable | Key Metric / Capability | Business Impact |
+| :--- | :--- | :--- |
+| **🎯 Champion Classifier** | **87.08% Holdout ROC-AUC** · 87.00% Accuracy | High-conviction customer flight prediction |
+| **🛡️ Validation Protocol** | **5-Fold Stratified Cross-Validation** | Zero data leakage; statistically verified generalizability |
+| **💼 Threshold Calibration** | **+22.61% Churn Capture Gain** ($T = 0.35$) | Salvages +45 additional churners per 2,000 accounts |
+| **🔍 Explainable AI (XAI)** | **SHAP TreeExplainer & Partial Dependence** | Full auditability aligned with GDPR Article 22 & EU AI Act |
+| **💰 Capital Triage** | **Value-at-Risk (VAR) Exposure Index** | Prioritizes high-balance depositor retention workflows |
+| **🖥️ Decision Hub** | **8-Page Interactive Streamlit Suite** | Real-time scoring, cohort filtering, and what-if simulation |
+
 ---
 
 ## 2. Business Problem
@@ -142,18 +153,19 @@ Data cleaning and preprocessing steps were executed systematically to prevent da
 
 Exploratory analysis was conducted in `notebooks/Bank_Churn_Analysis.ipynb` across univariate, bivariate, and multivariate dimensions:
 
-```
-                            PORTFOLIO OVERVIEW & CHURN DYNAMICS
-┌───────────────────────────────────────┬───────────────────────────────────────┐
-│     PORTFOLIO DEMOGRAPHICS            │         CHURN RISK SPLIT              │
-│  • Total Accounts: 10,000             │  • Retained: 7,963 (79.63%)           │
-│  • France: 5,014 (50.14%)             │  • Churned:  2,037 (20.37%)           │
-│  • Germany: 2,509 (25.09%)            │  • Mean Balance (Retained): €72,745   │
-│  • Spain:   2,477 (24.77%)            │  • Mean Balance (Churned):  €91,109   │
-└───────────────────────────────────────┴───────────────────────────────────────┘
-```
+### Portfolio Summary Breakdown
 
-### Key Statistical Summary
+| Segment Dimension | Sub-Group Breakdown | Share of Cohort (%) | Churn Rate (%) | Retained vs. Churned Counts |
+| :--- | :--- | :---: | :---: | :--- |
+| **Entire Cohort** | All Retail Accounts | 100.00% (10,000) | **20.37%** | 7,963 Retained / 2,037 Churned |
+| **Geography** | France<br>Germany<br>Spain | 50.14% (5,014)<br>25.09% (2,509)<br>24.77% (2,477) | 16.15%<br>**32.44%**<br>16.67% | 4,204 Ret. / 810 Churned<br>1,695 Ret. / 814 Churned<br>2,064 Ret. / 413 Churned |
+| **Product Holding** | 1 Product<br>2 Products (Optimal ⭐)<br>3 Products<br>4 Products | 50.84% (5,084)<br>45.90% (4,590)<br>2.66% (266)<br>0.60% (60) | 27.71%<br>**7.58%**<br>**82.71%**<br>**100.00%** | 3,675 Ret. / 1,409 Churned<br>4,242 Ret. / 348 Churned<br>46 Ret. / 220 Churned<br>0 Ret. / 60 Churned |
+| **Activity Status** | Active Member<br>Inactive Member | 51.51% (5,151)<br>48.49% (4,849) | **14.27%**<br>**26.85%** | 4,416 Ret. / 735 Churned<br>3,547 Ret. / 1,302 Churned |
+| **Gender** | Female<br>Male | 45.43% (4,543)<br>54.57% (5,457) | **25.07%**<br>**16.46%** | 3,404 Ret. / 1,139 Churned<br>4,559 Ret. / 898 Churned |
+
+---
+
+### Comparative Cohort Statistics
 
 | Dimension | Retained Cohort ($N=7,963$) | Churned Cohort ($N=2,037$) | Observed Difference / Delta |
 | :--- | :---: | :---: | :--- |
@@ -262,38 +274,35 @@ Gradient Boosting was selected as the **Production Champion** based on:
 
 ---
 
-### 3. Decision Threshold Optimization (Out-of-Fold Calibration)
+### 3. Decision Threshold Optimization Landscape (Out-of-Fold Calibration)
 
 In retail banking retention, **False Negatives (missing a churning depositor) are significantly more costly than False Positives (sending an outreach message to a loyal depositor)**. 
 
 Threshold calibration was performed on Out-of-Fold (OOF) cross-validation predictions:
 
-| Decision Threshold ($T$) | OOF Precision | OOF Recall | OOF F1-Score | Churners Captured (OOF) | Operational Application |
-| :---: | :---: | :---: | :---: | :---: | :--- |
-| **0.20** | 50.80% | 74.11% | 60.28% | 1,208 / 1,630 | ⚡ Early Warning (Automated digital nudges / emails) |
-| **0.30** | 62.01% | 63.50% | 62.75% | 1,035 / 1,630 | 🔄 High-Coverage Campaigns |
-| **⭐ 0.35** | **66.23%** | **58.96%** | **62.38%** | **961 / 1,630** | **🎯 Selected Retention Policy (Optimal Balance)** |
-| **0.50** | 77.32% | 46.44% | 58.03% | 757 / 1,630 | 🛡️ High-Precision Default (High-cost executive touches) |
+| Decision Threshold ($T$) | OOF Accuracy | OOF Precision | OOF Recall | OOF F1-Score | Churners Captured (OOF) | Strategic Operational Objective |
+| :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **0.20** | 80.10% | 50.80% | 74.11% | 60.28% | 1,208 / 1,630 | ⚡ **Early Warning Policy**: Automated digital nudges & low-cost in-app guides |
+| **0.30** | 84.64% | 62.01% | 63.50% | 62.75% | 1,035 / 1,630 | 🔄 **High-Coverage Campaigns**: Broad promotional and re-activation outreach |
+| **⭐ 0.35** | **85.51%** | **66.23%** | **58.96%** | **62.38%** | **961 / 1,630** | **🎯 Selected Retention Policy**: Optimal balance of precision & capture |
+| **0.50** | 86.31% | 77.32% | 46.44% | 58.03% | 757 / 1,630 | 🛡️ **Conservative Precision**: High-cost executive and relationship manager calls |
 
 ---
 
-### 4. Holdout Confusion Matrix Comparison (2,000 Test Records)
+### 4. Holdout Confusion Matrix & Operational Impact (2,000 Test Records)
 
-```
-       DEFAULT THRESHOLD (T = 0.50)                 RETENTION POLICY (T = 0.35)
-┌────────────────────────┬────────────────┐    ┌────────────────────────┬────────────────┐
-│ TN = 1,541 (96.7%)     │ FP = 52 (3.3%) │    │ TN = 1,471 (92.3%)     │ FP = 122 (7.7%)│
-├────────────────────────┼────────────────┤    ├────────────────────────┼────────────────┤
-│ FN = 208 (51.1%)       │ TP = 199(48.9%)│    │ FN = 163 (40.0%)       │ TP = 244(60.0%)│
-└────────────────────────┴────────────────┘    └────────────────────────┴────────────────┘
-  Accuracy: 87.00% | Precision: 79.28%           Accuracy: 85.75% | Precision: 66.67%
-  Recall:   48.89% | Caught: 199 / 407           Recall:   59.95% | Caught: 244 / 407
-```
+| Metric / Classification Outcome | Default Baseline Mode ($T = 0.50$) | Selected Retention Policy ($T = 0.35$) | Operational Delta / Business Impact |
+| :--- | :---: | :---: | :--- |
+| **True Retained (TN)** | `1,541` (96.7% specificity) | `1,471` (92.3% specificity) | Minimal false outreach to non-churners |
+| **False Alarms (FP)** | `52` (3.3% false alarm rate) | `122` (7.7% false alarm rate) | +70 additional contacts within operational budget |
+| **Missed Churners (FN)** | `208` (51.1% missed) | `163` (40.0% missed) | **-45 fewer missed churners** |
+| **Captured Churners (TP)** | `199` (48.9% caught) | `244` (60.0% caught) | **+45 additional at-risk depositors saved (+22.61% gain)** |
+| **Overall Accuracy** | **87.00%** (1,740 / 2,000) | **85.75%** (1,715 / 2,000) | High overall classification reliability preserved |
+| **Precision** | **79.28%** | **66.67%** | 2 out of 3 outreach touches are genuine flight risks |
+| **Recall (Churn Capture Rate)** | **48.89%** | **59.95%** | **+11.06% absolute increase in churner detection** |
+| **F1-Score** | **60.49%** | **63.13%** | **+2.64% increase in overall balanced retention performance** |
 
-- **Net Impact of $T = 0.35$ Policy**:
-  - **+45 additional at-risk depositors captured** (244 vs. 199).
-  - **+22.61% relative gain in churn capture rate**.
-  - Illustrative scenario value ($\text{CLV} = \$2,500$, save rate $= 25\%$, outreach cost $= \$50$): unlocks an estimated **+$22,375 net value gain** per 2,000 customer cohort.
+> **Economic Impact Simulation**: In an illustrative retail banking scenario ($\text{CLV} = \$2,500$, save rate $= 25\%$, contact cost $= \$50$), shifting to $T = 0.35$ unlocks **+$22,375 in net added value** per 2,000 accounts evaluated.
 
 ---
 
@@ -326,17 +335,22 @@ To satisfy regulatory standards (e.g., GDPR Article 22 "Right to Explanation" an
 
 The risk intelligence engine translates raw model probabilities into actionable operational tiers:
 
-```
-Customer Data ──> Feature Encoding ──> Gradient Boosting ──> Churn Probability (P̂) ──> Risk Score (P̂ × 100) ──> Tiered SLA Protocol
+```mermaid
+flowchart LR
+    A[Customer Profile Data] --> B[Feature Pipeline]
+    B --> C[Gradient Boosting Engine]
+    C --> D[Churn Probability P̂]
+    D --> E[Risk Score: P̂ × 100]
+    E --> F[3-Tier SLA Prioritization]
 ```
 
-### Risk Stratification Table (Holdout Test Distribution)
+### Strategic Retention Matrix & SLA Playbooks
 
-| Risk Category | Probability Range | Risk Score Range | Holdout Customers | Cohort Share (%) | Average Risk Score | Operational SLA & Prescribed Playbook |
-| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| 🟢 **Low Risk** | $\hat{P} < 0.30$ | `0.0 – 29.9` | `1,581` | **79.05%** | `9.97` | **Routine Nurture**: Standard maintenance; cross-sell second linked product to reach optimal retention zone. |
-| 🟡 **Medium Risk** | $0.30 \le \hat{P} < 0.60$ | `30.0 – 59.9` | `234` | **11.70%** | `43.32` | **7-Day Digital Engagement**: Automated re-activation campaigns, digital app onboarding, and rate matching nudges. |
-| 🔴 **High Risk** | $\hat{P} \ge 0.60$ | `60.0 – 100.0` | `185` | **9.25%** | `81.63` | **24–48h Executive Outreach**: Priority Relationship Manager consultation, customized fee waivers, and VIP deposit term rates. |
+| Risk Tier Category | Qualification Criteria | Churn Probability Range | Risk Score Range | Holdout Customers (% Share) | Prescribed Retention Playbook & SLA |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| 🔴 **Critical / High Priority** | High Churn Probability ($\ge 60\%$) OR High Value-at-Risk (CVP) | $\hat{P} \ge 0.60$ | `60.0 – 100.0` | `185` (**9.25%**) | ⏱️ **24–48h RM Executive Outreach**<br>Direct relationship manager call, custom fee waiver, and VIP term-deposit rate matching. |
+| 🟡 **Medium Priority** | Moderate Churn Risk ($30\% \le \hat{P} < 60\%$) with Mid/Low Balance | $0.30 \le \hat{P} < 0.60$ | `30.0 – 59.9` | `234` (**11.70%**) | ⏱️ **7-Day Automated Digital Campaign**<br>Targeted mobile app re-engagement, savings feature guide, and product benefit incentives. |
+| 🟢 **Low Priority (Nurture)** | Low Churn Probability ($\hat{P} < 30\%$) with Healthy Account Status | $\hat{P} < 0.30$ | `0.0 – 29.9` | `1,581` (**79.05%**) | ⏱️ **Routine Relationship Maintenance**<br>Standard service delivery; cross-sell secondary linked product to lock in the 7.58% optimal retention zone. |
 
 ---
 
