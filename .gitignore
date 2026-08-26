@@ -24,8 +24,15 @@ Thumbs.db
 # Streamlit local runtime
 .streamlit/secrets.toml
 
-# Scratch & Temp
+# Environment & Secrets
+.env
+.env.*
+*.secret
+
+# Scratch, Temp & Logs
 scratch/
 tmp/
 *.log
-\# Project tasks.txt
+*.tmp
+*.bak
+\#\ Project\ tasks.txt
