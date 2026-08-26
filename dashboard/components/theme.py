@@ -881,17 +881,20 @@ def apply_global_theme():
         }
 
         /* -------------------------------------------------------------------------
-           9. STREAMLIT TEXT INPUTS, NUMBER INPUTS & TEXTAREAS (CRISP OUTLINE)
+           9. STREAMLIT TEXT INPUTS, NUMBER INPUTS & TEXTAREAS (CRISP OUTLINE & LIGHT GREY TEXT)
            ------------------------------------------------------------------------- */
         [data-testid="stTextInput"] [data-baseweb="input"],
         [data-testid="stNumberInput"] [data-baseweb="input"],
+        [data-testid="stTextArea"] [data-baseweb="textarea"],
         [data-baseweb="input"],
         [data-baseweb="base-input"],
+        [data-baseweb="textarea"],
         .stTextInput > div > div,
-        .stNumberInput > div > div {
+        .stNumberInput > div > div,
+        .stTextArea > div > div {
             background-color: #FFFFFF !important;
             background: #FFFFFF !important;
-            border: 1.5px solid #94A3B8 !important; /* Clearly visible, high-contrast crisp outline */
+            border: 1.5px solid #CBD5E1 !important; /* Soft border */
             border-radius: 10px !important;
             min-height: 42px !important;
             box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
@@ -900,56 +903,122 @@ def apply_global_theme():
 
         [data-testid="stTextInput"] [data-baseweb="input"]:hover,
         [data-testid="stNumberInput"] [data-baseweb="input"]:hover,
+        [data-testid="stTextArea"] [data-baseweb="textarea"]:hover,
         [data-baseweb="input"]:hover,
+        [data-baseweb="base-input"]:hover,
+        [data-baseweb="textarea"]:hover,
         .stTextInput > div > div:hover,
-        .stNumberInput > div > div:hover {
+        .stNumberInput > div > div:hover,
+        .stTextArea > div > div:hover {
             border-color: #0EA5E9 !important;
             box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12) !important;
         }
 
         [data-testid="stTextInput"] [data-baseweb="input"]:focus-within,
         [data-testid="stNumberInput"] [data-baseweb="input"]:focus-within,
+        [data-testid="stTextArea"] [data-baseweb="textarea"]:focus-within,
         [data-baseweb="input"]:focus-within,
+        [data-baseweb="base-input"]:focus-within,
+        [data-baseweb="textarea"]:focus-within,
         .stTextInput > div > div:focus-within,
-        .stNumberInput > div > div:focus-within {
+        .stNumberInput > div > div:focus-within,
+        .stTextArea > div > div:focus-within {
             border-color: #0284C7 !important;
             box-shadow: 0 0 0 3.5px rgba(14, 165, 233, 0.22) !important;
         }
 
-        /* Inner input element styling */
+        /* Inner typing container input & textarea element styling - LIGHT GREY VISIBLE TEXT */
+        input,
+        textarea,
+        input[type="text"],
+        input[type="number"],
+        input[type="search"],
+        input[type="password"],
         [data-baseweb="input"] input,
+        [data-baseweb="base-input"] input,
+        [data-baseweb="textarea"] textarea,
         [data-testid="stTextInput"] input,
         [data-testid="stNumberInput"] input,
+        [data-testid="stTextArea"] textarea,
+        [data-testid="stChatInput"] textarea,
+        [data-testid="stChatInput"] input,
+        [data-testid="stSelectbox"] input,
+        [data-testid="stMultiSelect"] input,
         .stTextInput input,
         .stNumberInput input,
-        textarea {
+        .stTextArea textarea {
             background: transparent !important;
             border: none !important;
             outline: none !important;
             box-shadow: none !important;
-            color: #0F172A !important;
-            font-size: 0.92rem !important;
+            color: #64748B !important;
+            -webkit-text-fill-color: #64748B !important;
+            caret-color: #64748B !important;
+            font-size: 0.94rem !important;
             font-weight: 600 !important;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
             padding: 0.55rem 0.85rem !important;
         }
 
+        input:focus,
+        input:active,
+        input:hover,
+        textarea:focus,
+        textarea:active,
+        textarea:hover {
+            color: #64748B !important;
+            -webkit-text-fill-color: #64748B !important;
+        }
+
+        /* Browser autofill styling to preserve light grey text on white background */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-text-fill-color: #64748B !important;
+            -webkit-box-shadow: 0 0 0px 1000px #FFFFFF inset !important;
+            box-shadow: 0 0 0px 1000px #FFFFFF inset !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        /* Number input stepper plus/minus buttons */
+        [data-testid="stNumberInput"] button,
+        [data-baseweb="input"] button {
+            color: #64748B !important;
+            -webkit-text-fill-color: #64748B !important;
+        }
+
+        [data-testid="stNumberInput"] button svg,
+        [data-baseweb="input"] button svg {
+            fill: #64748B !important;
+            stroke: #64748B !important;
+            color: #64748B !important;
+        }
+
+        /* Input Placeholder styling */
+        input::placeholder,
+        textarea::placeholder,
         [data-baseweb="input"] input::placeholder,
-        [data-testid="stTextInput"] input::placeholder {
+        [data-testid="stTextInput"] input::placeholder,
+        [data-testid="stNumberInput"] input::placeholder,
+        [data-testid="stTextArea"] textarea::placeholder {
             color: #94A3B8 !important;
+            -webkit-text-fill-color: #94A3B8 !important;
             font-weight: 500 !important;
             opacity: 1 !important;
         }
 
         /* -------------------------------------------------------------------------
-           9b. BASEWEB SELECTBOX & MULTISELECT TRIGGER STYLES
+           9b. BASEWEB SELECTBOX & MULTISELECT TRIGGER STYLES (LIGHT GREY TEXT)
            ------------------------------------------------------------------------- */
         [data-testid="stSelectbox"] > div > div,
         [data-testid="stMultiSelect"] > div > div,
-        [data-baseweb="select"] > div {
+        [data-baseweb="select"],
+        [data-baseweb="select"] > div,
+        [data-baseweb="select"] > div > div {
             background-color: #FFFFFF !important;
             background: #FFFFFF !important;
-            border: 1.5px solid #94A3B8 !important;
+            border: 1.5px solid #CBD5E1 !important;
             border-radius: 10px !important;
             min-height: 42px !important;
             box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
@@ -958,6 +1027,7 @@ def apply_global_theme():
 
         [data-testid="stSelectbox"] > div > div:hover,
         [data-testid="stMultiSelect"] > div > div:hover,
+        [data-baseweb="select"]:hover,
         [data-baseweb="select"] > div:hover {
             border-color: #0EA5E9 !important;
             box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12) !important;
@@ -965,21 +1035,29 @@ def apply_global_theme():
 
         [data-testid="stSelectbox"] > div > div:focus-within,
         [data-testid="stMultiSelect"] > div > div:focus-within,
+        [data-baseweb="select"]:focus-within,
         [data-baseweb="select"] > div:focus-within {
             border-color: #0284C7 !important;
             box-shadow: 0 0 0 3.5px rgba(14, 165, 233, 0.22) !important;
         }
 
-        /* Selectbox value text - Force high-contrast deep navy */
+        /* Selectbox value text & inner elements - FORCE LIGHT GREY VISIBILITY */
+        [data-baseweb="select"],
+        [data-baseweb="select"] *,
+        [data-testid="stSelectbox"] div[data-baseweb="select"] *,
+        [data-testid="stSelectbox"] [role="combobox"],
+        [data-testid="stSelectbox"] [role="combobox"] *,
+        [data-baseweb="select"] div[role="combobox"],
+        [data-baseweb="select"] div[role="combobox"] div,
+        [data-baseweb="select"] div[role="combobox"] span,
         [data-baseweb="select"] [data-testid="stMarkdownContainer"] p,
         [data-baseweb="select"] div[aria-selected="true"],
-        [data-baseweb="select"] div[role="combobox"] span,
-        [data-baseweb="select"] div[role="combobox"] div,
         [data-baseweb="select"] span:not([data-testid="stMultiSelectTagClose"]),
-        [data-baseweb="select"] p {
-            color: #0F172A !important;
-            -webkit-text-fill-color: #0F172A !important;
-            font-size: 0.9rem !important;
+        [data-baseweb="select"] p,
+        [data-baseweb="select"] div {
+            color: #64748B !important;
+            -webkit-text-fill-color: #64748B !important;
+            font-size: 0.92rem !important;
             font-weight: 600 !important;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
         }
@@ -1019,7 +1097,8 @@ def apply_global_theme():
         ul[role="listbox"] li {
             background: #FFFFFF !important;
             background-color: #FFFFFF !important;
-            color: #0F172A !important;
+            color: #64748B !important;
+            -webkit-text-fill-color: #64748B !important;
             font-size: 0.88rem !important;
             font-weight: 600 !important;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
@@ -1042,6 +1121,7 @@ def apply_global_theme():
             background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%) !important;
             background-color: #E0F2FE !important;
             color: #0284C7 !important;
+            -webkit-text-fill-color: #0284C7 !important;
             border-color: #BAE6FD !important;
             font-weight: 700 !important;
         }
@@ -1054,6 +1134,7 @@ def apply_global_theme():
         ul[role="listbox"] span,
         ul[role="listbox"] div {
             color: inherit !important;
+            -webkit-text-fill-color: inherit !important;
             font-weight: inherit !important;
         }
 
